@@ -84,7 +84,7 @@ export default function App() {
                   <label className="font-bold">Apresentação:</label>
                   <input
                     type="number"
-                    value={product.apresentation}
+                    value={product.apresentation || ""}
                     onChange={(e) =>
                       handleChange(index, "apresentation", e.target.value)
                     }
@@ -97,7 +97,7 @@ export default function App() {
                   <label className="font-bold">ml/100kg:</label>
                   <input
                     type="number"
-                    value={product.mlPerkg}
+                    value={product.mlPerkg || ""}
                     onChange={(e) =>
                       handleChange(index, "mlPerkg", e.target.value)
                     }
@@ -110,7 +110,7 @@ export default function App() {
                   <label className="font-bold">Preço (R$):</label>
                   <input
                     type="number"
-                    value={product.price}
+                    value={product.price || ""}
                     onChange={(e) =>
                       handleChange(index, "price", e.target.value)
                     }
@@ -123,7 +123,7 @@ export default function App() {
                   <label className="font-bold">Peso (kg):</label>
                   <input
                     type="number"
-                    value={product.weight}
+                    value={product.weight || ""}
                     onChange={(e) =>
                       handleChange(index, "weight", e.target.value)
                     }
@@ -158,15 +158,19 @@ export default function App() {
       </div>
 
       {/* Mensagem de menor preço */}
-      <div className="mt-4 p-3 text-center rounded border">
-        {cheapestProduct === "Metacam" ? (
-          <p className="">✅ O Metacam tem o menor preço por tratamento!</p>
-        ) : (
-          <p className="">
-            ⚠️ {cheapestProduct} tem o menor preço por tratamento!
-          </p>
-        )}
-      </div>
+      {products.length > 1 && (
+        <div className="mt-4 p-3 text-center rounded border">
+          {cheapestProduct === "Metacam" ? (
+            <p className="text-green-800 bg-green-100 border border-green-400 p-2">
+              ✅ O Metacam tem o menor preço por tratamento!
+            </p>
+          ) : (
+            <p className="text-red-800 bg-red-100 border border-red-400 p-2">
+              ⚠️ {cheapestProduct} tem o menor preço por tratamento!
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Botão para adicionar concorrente */}
       <button
