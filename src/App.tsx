@@ -9,11 +9,19 @@ interface Product {
   mlPerkg: number;
   price: number;
   weight: number;
+  dose: number;
 }
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>([
-    { name: "Metacam", apresentation: 0, mlPerkg: 0, price: 0, weight: 0 },
+    {
+      name: "Metacam",
+      apresentation: 0,
+      mlPerkg: 0,
+      price: 0,
+      weight: 0,
+      dose: 1,
+    },
   ]);
 
   const handleChange = (index: number, field: keyof Product, value: string) => {
@@ -28,7 +36,7 @@ export default function App() {
   const addCompetitor = () => {
     setProducts([
       ...products,
-      { name: "", apresentation: 0, mlPerkg: 0, price: 0, weight: 0 },
+      { name: "", apresentation: 0, mlPerkg: 0, price: 0, weight: 0, dose: 1 },
     ]);
   };
 
@@ -63,6 +71,7 @@ export default function App() {
                             name: selectedCompetitor.name,
                             apresentation: selectedCompetitor.apresentation,
                             mlPerkg: selectedCompetitor.mlPerkg,
+                            dose: selectedCompetitor.dose,
                           };
                           setProducts(newProducts);
                         }
@@ -150,7 +159,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Linha separadora entre os concorrentes */}
               {index !== products.length - 1 && <hr className="my-4" />}
             </div>
           );
@@ -158,15 +166,26 @@ export default function App() {
       </div>
 
       {/* Mensagem de menor preço */}
-      {products.length > 1 && (
+      {products.length > 1 && cheapestProduct && cheapestProduct !== "" && (
         <div className="mt-4 p-3 text-center rounded border">
           {cheapestProduct === "Metacam" ? (
             <p className="text-green-800 bg-green-100 border border-green-400 p-2">
-              ✅ O Metacam tem o menor preço por tratamento!
+              ✅ O <strong>Metacam</strong> tem o menor preço por tratamento!
+              Pois é <strong>DOSE ÚNICA</strong>,
+              <ul className="mt-2 text-center">
+                {products
+                  .filter((p) => p.name !== "Metacam") // Filtra só concorrentes
+                  .map((p, index) => (
+                    <li key={index} className="ml-4">
+                      - <strong>{p.name} precisa de </strong>: {p.dose} doses
+                    </li>
+                  ))}
+              </ul>
             </p>
           ) : (
             <p className="text-red-800 bg-red-100 border border-red-400 p-2">
-              ⚠️ {cheapestProduct} tem o menor preço por tratamento!
+              ⚠️ O concorrente <strong>{cheapestProduct}</strong> tem o menor
+              preço por tratamento!
             </p>
           )}
         </div>
